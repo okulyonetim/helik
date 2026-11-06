@@ -1,0 +1,15 @@
+{
+  "name": "aile-oyunlari",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Aile için çok oyunlu, çocuk ve yetişkin dostu online oyun uygulaması (PWA).",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "build:preview": "node scripts/build-preview.mjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}
