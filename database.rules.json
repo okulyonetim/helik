@@ -1,0 +1,37 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "rooms": {
+      "$kod": {
+        ".validate": "$kod.matches(/^[A-Z0-9]{4,8}$/)",
+        ".write": "auth != null && data.exists() && root.child('rooms').child($kod).child('players').child(auth.uid).exists()",
+        "meta": {
+          ".read": "auth != null",
+          ".write": "auth != null && !data.exists()",
+          ".validate": "data.exists() || newData.child('hostUid').val() === auth.uid"
+        },
+        "players": {
+          ".read": "auth != null",
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid",
+            ".validate": "newData.child('name').isString() && newData.child('name').val().length <= 30"
+          }
+        },
+        "state": {
+          ".read": "auth != null && root.child('rooms').child($kod).child('players').child(auth.uid).exists()",
+          ".validate": "newData.hasChildren(['rev', 'json']) && newData.child('json').isString() && newData.child('json').val().length < 60000"
+        },
+        "actions": {
+          ".read": "auth != null && root.child('rooms').child($kod).child('players').child(auth.uid).exists()",
+          "$id": {
+            ".validate": "newData.child('uid').val() === auth.uid && newData.child('json').isString() && newData.child('json').val().length < 4000"
+          }
+        },
+        "$diger": {
+          ".validate": false
+        }
+      }
+    }
+  }
+}
