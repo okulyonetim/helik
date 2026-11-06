@@ -34,7 +34,8 @@ export async function baglan(cfg){
     async remove(path){await remove(R(path))},
     on(path,cb){return onValue(R(path),s=>cb(s.exists()?s.val():undefined))},
     onChildAdded(path,cb){return onChildAdded(R(path),s=>cb(s.key,s.val()))},
-    onDisconnect(path,val){const d=onDisconnect(R(path));return val==null?d.remove():d.set(val)},
+    /* Bağlantı kopunca yazılacak değer; dönen fonksiyon kaydı iptal eder (odadan ayrılınca hayalet kayıt oluşmasın) */
+    onDisconnect(path,val){const d=onDisconnect(R(path));(val==null?d.remove():d.set(val)).catch(()=>{});return()=>{d.cancel().catch(()=>{})}},
     /* Yalnızca değer beklenen gibiyse yaz (host devri için) */
     async compareSet(path,beklenen,yeni){
       const r=await runTransaction(R(path),cur=>cur===beklenen?yeni:undefined);

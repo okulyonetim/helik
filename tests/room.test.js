@@ -150,6 +150,37 @@ test('lobiye dönünce durum silinir ve başka oyun başlatılabilir',async()=>{
   assert.equal(oda2.state.n,1,'ikinci oyunda eylemler yine işler (rev sıfırlanmış olsa da)');
 });
 
+test('oyun lobiye dönmeden yeniden başlatılınca konuklar yeni durumu görür (rev geriye gitmez)',async()=>{
+  const {oda,oda2}=await iki();
+  await oda.startGame();await bekleHer();
+  for(let i=0;i<5;i++){oda2.dispatch('arttir');await bekleHer(3)}
+  assert.equal(oda2.state.n,5);
+  assert.equal(await oda.startGame(),true);await bekleHer(3);
+  assert.equal(oda2.state.n,0,'konuk yeni oyunun durumunu aldı');
+  oda2.dispatch('arttir');await bekleHer(4);
+  assert.equal(oda2.state.n,1);assert.equal(oda.state.n,1);
+});
+
+test('odadan ayrılan sonradan bağlantısı kopunca hayalet oyuncu kaydı bırakmaz',async()=>{
+  const hub=yeniHub();
+  const a=hub.connect('ali'),b=hub.connect('bora');
+  const oda=await Room.create(a,sayac,prof('Ali'),{},cfg);
+  const oda2=await Room.join(b,GAMES,oda.code,prof('Bora'),cfg);
+  await bekleHer();
+  await oda2.leave();await bekleHer();
+  b.disconnect();await bekleHer();
+  assert.equal(await a.get(`rooms/${oda.code}/players/bora`),undefined,'ayrılan oyuncunun kaydı geri gelmedi');
+  assert.equal(oda.players.length,1);
+});
+
+test('adı olmayan artık kayıt oyuncu listesine girmez',async()=>{
+  const hub=yeniHub();
+  const a=hub.connect('ali'),x=hub.connect('hayalet');
+  const oda=await Room.create(a,sayac,prof('Ali'),{},cfg);
+  await x.set(`rooms/${oda.code}/players/hayalet/online`,false);await bekleHer();
+  assert.deepEqual(oda.players.map(p=>p.uid),['ali']);
+});
+
 test('lobi ayarlarını yalnız host değiştirir ve herkes görür',async()=>{
   const {oda,oda2}=await iki();
   await oda.setOpts({sure:30});await oda2.setOpts({sure:99});await bekleHer(3);

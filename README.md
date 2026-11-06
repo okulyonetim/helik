@@ -51,6 +51,14 @@ npm run build:preview  # tek dosyalık önizleme: dist/aile-oyunlari-onizleme.ht
 npm run sw           # dosya ekledikten/sildikten sonra çevrimdışı önbellek listesini güncelle
 ```
 
+İsteğe bağlı: iki-üç "telefon"un aynı odada gerçek ekranlarla oynadığı uçtan uca deneme (`tests/e2e/`):
+
+```bash
+npm i --no-save puppeteer-core      # ve bilgisayarda Chrome kurulu olmalı
+npm run serve                       # ayrı terminalde
+URL=http://localhost:8080/tests/e2e/harness.html node tests/e2e/calistir.mjs [oyun]
+```
+
 Derleme adımı yoktur: dosyalar olduğu gibi yayınlanır (düz ES modülleri).
 
 ### Yeni oyun eklemek

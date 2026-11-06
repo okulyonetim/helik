@@ -78,8 +78,8 @@ export function createMemoryHub({now=()=>Date.now()}={}){
         if(!same(read(path),beklenen))return false;
         write(path,yeni);fire();return true;
       },
-      /* Bağlantı kopunca path'e val yazılsın (null = silinsin) */
-      onDisconnect(path,val){dc.add({path,val})},
+      /* Bağlantı kopunca path'e val yazılsın (null = silinsin). Dönen fonksiyon kaydı iptal eder. */
+      onDisconnect(path,val){const j={path,val};dc.add(j);return()=>{dc.delete(j)}},
       /* Test için: bağlantı kopması */
       disconnect(){
         for(const l of [...unsubs])l();

@@ -4,7 +4,7 @@ import {yukle,bulma,bulmaSayisi,cozumDizisi,harfMi,kelimeler,tumuDolu,SEVIYELER}
 import view from './cengel.view.js';
 
 const game={
-  id:'cengel',name:'Çengel Bulmaca',ikon:'🔤',renk:'#0d9488',
+  id:'cengel',name:'Çengel Bulmaca',ikon:'📰',renk:'#0d9488',
   ozet:'Ok işaretli ipuçlarını çöz',
   nasil:'İpucu kutusundaki tanıma uyan cevabı kutulara yaz. Bir kutuya dokun, alttaki klavyeden harfi seç. Doğru harf yerine oturur, yanlış harf puan kaybettirir. Takılırsan İpucu düğmesi seçili kutuyu açar. Birlikte oynarsanız herkes aynı bulmacayı çözer.',
   cocuk:true,solo:true,online:true,players:{min:1,max:6},

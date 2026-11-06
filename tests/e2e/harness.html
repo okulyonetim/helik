@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8"><title>İki istemcili deneme</title><link rel="icon" href="data:,">
+<style>body{margin:0;display:flex;gap:12px;background:#888;padding:6px}iframe{width:390px;height:844px;border:0;background:#fff}</style></head>
+<body>
+<iframe id="f0" src="frame.html?u=0"></iframe>
+<iframe id="f1" src="frame.html?u=1"></iframe>
+<iframe id="f2" src="frame.html?u=2"></iframe>
+<script type="module">
+import {createMemoryHub} from '../../js/core/db-memory.js';
+window.H={hub:createMemoryHub(),kod:null};
+</script>
+</body></html>

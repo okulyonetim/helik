@@ -1,5 +1,5 @@
 /* Çevrimdışı çalışma: önce ağ (güncel dosyalar), ağ yoksa önbellek. Önbellek listesi `npm run sw` ile güncellenir. */
-const SURUM='aile-72558e72';
+const SURUM='aile-c744587e';
 const DOSYALAR=[
   /*LISTE-BASLA*/
   'css/app.css',

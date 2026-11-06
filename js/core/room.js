@@ -71,7 +71,8 @@ export class Room{
     if(mevcut?.spectator||spectator)kayit.spectator=true;
     await this.db.set(`${yol(this.code)}/players/${this.uid}`,kayit);
     if(!this.players.some(p=>p.uid===this.uid))this.players=[...this.players,{uid:this.uid,...kayit}];
-    this.db.onDisconnect(`${yol(this.code)}/players/${this.uid}/online`,false);
+    this._dcIptal?.();
+    this._dcIptal=this.db.onDisconnect(`${yol(this.code)}/players/${this.uid}/online`,false);
   }
 
   _start(){
@@ -96,7 +97,8 @@ export class Room{
   }
   _onPlayers(o){
     if(this.closed)return;
-    this.players=Object.entries(o||{}).map(([uid,p])=>({uid,...p})).sort((a,b)=>(a.joinedAt-b.joinedAt)||(a.uid<b.uid?-1:1));
+    /* adı olmayan kayıt (ayrıldıktan sonra kalan artık) oyuncu sayılmaz */
+    this.players=Object.entries(o||{}).filter(([,p])=>p&&typeof p.name==='string').map(([uid,p])=>({uid,...p})).sort((a,b)=>(a.joinedAt-b.joinedAt)||(a.uid<b.uid?-1:1));
     this._hostKontrol();
     this._emit();
   }
@@ -108,7 +110,7 @@ export class Room{
     }
     this._emit();
   }
-  _kapandi(){this.closed=true;this._temizle();for(const cb of [...this.closeCbs])cb()}
+  _kapandi(){this.closed=true;this._dcIptal?.();this._dcIptal=null;this._temizle();for(const cb of [...this.closeCbs])cb()}
 
   /* ── Host ── */
   isHost(){return!!this.meta&&this.meta.hostUid===this.uid}
@@ -199,7 +201,7 @@ export class Room{
     const n=this.aktifler().length;
     if(n<this.game.players.min)return false;
     this.state=this.game.init(this.ctx());
-    this.rev=0;
+    /* rev geriye gitmez: yeniden başlatmada konuklar yeni durumu "eski" sanıp yok saymasın */
     await this.db.update(yol(this.code),{'meta/status':'playing'});
     this._yayinla();
     return true;
@@ -220,6 +222,7 @@ export class Room{
     if(this.closed)return;
     const p=yol(this.code);
     const digerleri=this.players.filter(x=>x.uid!==this.uid&&x.online!==false);
+    this._dcIptal?.();this._dcIptal=null;
     this._temizle();
     this.closed=true;
     try{
