@@ -195,6 +195,7 @@ export class Room{
   async startGame(){
     if(!this.isHost())return false;
     if(!this._host)await this._hostOl();
+    try{await this.game.yukle?.()}catch(_){return false}
     const n=this.aktifler().length;
     if(n<this.game.players.min)return false;
     this.state=this.game.init(this.ctx());
