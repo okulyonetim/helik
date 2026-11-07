@@ -2,6 +2,7 @@
   "name": "Aile Oyunları",
   "short_name": "Aile Oyunları",
   "description": "Aile içinde birlikte oynanan kelime, bilgi ve çocuk oyunları.",
+  "id": "/aile-oyunlari",
   "lang": "tr",
   "dir": "ltr",
   "start_url": "./",

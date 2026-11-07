@@ -8,13 +8,19 @@ Aile içinde, telefonlardan birlikte (online) ya da tek başına oynanan oyunlar
 
 ## Telefona kurulum (bir kez)
 
-Uygulama bir web sitesidir; GitHub Pages ile ücretsiz yayınlanır, Android'de "Ana ekrana ekle" ile uygulama gibi yüklenir.
+Uygulama bir web sitesidir; ücretsiz yayınlanır, Android'de Chrome'dan **Uygulamayı yükle** ile uygulama gibi kurulur.
 
-1. **Depoyu herkese açık yap:** GitHub'da depo → *Settings* → en altta *Danger Zone* → *Change visibility* → *Public*.
-   (Ücretsiz hesapta GitHub Pages için gereklidir. Kodda gizli bir şey yoktur; aşağıdaki Firebase anahtarları zaten herkese açık olacak türdendir.)
-2. **Pages'i aç:** *Settings* → *Pages* → *Source: Deploy from a branch* → *Branch: main*, klasör */ (root)* → *Save*.
-3. Bir dakika sonra adres hazırdır: `https://KULLANICI.github.io/DEPO/` (ör. `https://okulyonetim.github.io/helik/`).
-4. Telefonda Chrome ile adresi aç → ⋮ menüsü → **Ana ekrana ekle** (ya da *Uygulamayı yükle*).
+> **Önemli — kendi adresi olsun:** Aynı GitHub hesabında başka bir uygulama (ör. `kullanici.github.io` altında kurulu bir PWA) varsa, Android `kullanici.github.io/…` bağlantılarını o uygulamanın içinde açar; oyun o uygulamanın adı ve simgesiyle görünür. Bunu önlemek için oyunu **ayrı bir adreste** (aşağıdaki Netlify) yayınlayın.
+
+**Netlify ile (önerilen, ücretsiz):**
+1. [netlify.com](https://www.netlify.com) → GitHub ile giriş → *Add new project* → *Import an existing project* → GitHub → bu depoyu seç.
+2. *Build command* ve *Publish directory* boş kalsın (ya da `.`) → **Deploy**.
+3. *Project configuration* → *Project name* → anlaşılır bir ad ver (ör. `aile-oyunlari`) → adres `https://aile-oyunlari.netlify.app` olur.
+4. Telefonda Chrome ile bu adresi aç → ⋮ menüsü → **Uygulamayı yükle**.
+
+Depoya her gönderimde (commit) Netlify siteyi kendiliğinden günceller.
+
+**GitHub Pages ile (başka PWA'nın aynı adreste kurulu olmadığı durumda):** depo → *Settings* → *Pages* → *Deploy from a branch* → *main* / */ (root)*. Adres `https://KULLANICI.github.io/DEPO/` olur (ücretsiz hesapta depo herkese açık olmalıdır).
 
 Tek başına oynanan modlar bu kadarıyla çalışır. **Birlikte (online) oynamak için** Firebase'i de kur:
 
